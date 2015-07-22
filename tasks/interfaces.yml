@@ -1,0 +1,6 @@
+- name: Pushes interface configuration
+  template: 
+    src: "../templates/interfaces.j2"
+    dest: /etc/network/interfaces
+  notify:
+    - Start interface

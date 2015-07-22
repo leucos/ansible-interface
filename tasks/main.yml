@@ -1,0 +1,2 @@
+- include: interfaces.yml tags=interfaces
+  when: interfaces_v4 is defined

@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# Additional interfaces_v4
+{% for if in interfaces_v4 %}
+{%   if 'noauto' not in interfaces_v4[if] %}
+auto {{ if }}
+{%   endif %}
+iface {{ if }} inet {{ interfaces_v4[if]['type'] }}
+{%   for cfg in interfaces_v4[if] %}
+{%     if cfg not in ['type','noauto'] %}
+  {{ cfg }} {{ interfaces_v4[if][cfg] }}
+{%     endif %}
+{%   endfor %}
+
+{% endfor %}
+
