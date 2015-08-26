@@ -1,0 +1,22 @@
+- debug: var=ucarp
+
+- name: Installs ucarp
+  apt: pkg=ucarp state=latest
+
+- name: Adds ucarp vip up script for double mode
+  template: src="../templates/ucarp-vip-up.sh.j2" dest=/usr/local/bin/ucarp-vip-up.sh mode=744
+  when: ucarp.mode == 'double'
+  # notify:
+  #   - restart networking
+
+- name: Adds ucarp vip down script for double mode
+  template: src="../templates/ucarp-vip-down.sh.j2" dest=/usr/local/bin/ucarp-vip-down.sh mode=744
+  when: ucarp.mode == 'double'
+  # notify:
+  #   - restart networking
+
+- name: Deploys ucarp failover script
+  template: src="../templates/ucarp.j2" dest=/usr/local/bin/ucarp-{{ ucarp.mode }} mode=744
+  # notify:
+  #   - restart networking
+  when: ucarp is defined

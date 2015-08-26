@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# {{ ansible_managed }}
+#
+
+# This is my VIP
+/usr/sbin/ucarp -i {{ ucarp["iface"] }} -s {{ network_interfaces_ipv4[ucarp["iface"]]["address"] }} -B -z \
+  -v {{ ucarp["vhid"] }} -p {{ ucarp["password"] }} -a {{ ucarp["address"] }} -u /usr/local/bin/ucarp-vip-up.sh -d /usr/local/bin/ucarp-vip-down.sh -P
+
+# This is the peer's VIP
+/usr/sbin/ucarp -i {{ ucarp["iface"] }} -s {{ network_interfaces_ipv4[ucarp["iface"]]["address"] }} -B -z \
+  -v {{ hostvars[ucarp["peer"]]['ucarp']["vhid"] }} -p {{ hostvars[ucarp["peer"]]['ucarp']["password"] }} -k 50 -a {{ hostvars[ucarp["peer"]]['ucarp']["address"]  }} -u /usr/local/bin/ucarp-vip-up.sh -d /usr/local/bin/ucarp-vip-down.sh

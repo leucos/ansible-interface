@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# {{ ansible_managed }}
+#
+
+IDX=`echo $2 | cut -f 4 -d'.'`
+
+logger -t ucarp-scripts vip-up for $1:ucarp$IDX
+/sbin/ifup $1:ucarp$IDX

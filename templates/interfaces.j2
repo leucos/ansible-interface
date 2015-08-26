@@ -18,3 +18,15 @@ iface {{ if }} inet {{ interfaces_v4[if]['type'] }}
 
 {% endfor %}
 
+{% if ucarp %}
+# Our ucarp vip setup
+iface {{ ucarp["iface"] }}:ucarp{{ ucarp["vhid"] }} inet static
+  address {{ ucarp["address"] }}
+  netmask {{ ucarp["netmask"] }}
+
+# Our ucarp setup for peer vip
+iface {{ ucarp["iface"] }}:ucarp{{ hostvars[ucarp["peer"]]['ucarp']["vhid"] }} inet static
+  address {{ hostvars[ucarp["peer"]]['ucarp']["address"] }}
+  netmask {{ hostvars[ucarp["peer"]]['ucarp']["netmask"] }}
+{% endif %}
+
