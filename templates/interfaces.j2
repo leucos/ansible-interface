@@ -11,8 +11,13 @@ auto {{ if }}
 {%   endif %}
 iface {{ if }} inet {{ interfaces_v4[if]['type'] }}
 {%   for cfg in interfaces_v4[if] %}
-{%     if cfg not in ['type','noauto'] %}
+{%     if cfg not in ['type','noauto','dns-nameservers'] %}
   {{ cfg }} {{ interfaces_v4[if][cfg] }}
+{%     endif %}
+{%     if cfg == 'dns-nameservers' %}
+{%       for ns in interfaces_v4[if][cfg] %}
+  dns-nameserver {{ ns }}
+{%       endfor %}
 {%     endif %}
 {%   endfor %}
 
