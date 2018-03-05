@@ -1,4 +1,7 @@
 - name: Start interface
   command: ifup {{ item.key }}
   with_dict: "{{ interfaces_v4 }}"
-  when: "ansible_{{ item.key | regex_replace(':', '_') }}['active'] is defined and not ansible_{{ item.key | regex_replace(':', '_') }}['active']"
+  when:
+    - "ansible_{{ item.key | regex_replace(':', '_') | regex_replace('\\.', '_') }} is defined"
+    - "'active' in ansible_{{ item.key | regex_replace(':', '_') | regex_replace('\\.', '_') }}"
+    - "not ansible_{{ item.key | regex_replace(':', '_') | regex_replace('\\.', '_') }}['active']"
