@@ -2,8 +2,11 @@
 # yamllint disable rule:line-length
 
 - name: Start interface
-  command: ifup {{ item.key }}
+  # noqa: no-jinja-when
+  ansible.builtin.command: ifup {{ item.key }}
   with_dict: "{{ interfaces_v4 }}"
+  register: __result
+  changed_when: "__result.rc != 0"
   when:
     - "ansible_{{ item.key | regex_replace(':', '_') | regex_replace('\\.', '_') }} is defined"
     - "'active' in ansible_{{ item.key | regex_replace(':', '_') | regex_replace('\\.', '_') }}"

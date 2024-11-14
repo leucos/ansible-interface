@@ -1,5 +1,6 @@
 ---
-- include_tasks:
+- name: Include interface tasks
+  ansible.builtin.include_tasks:
     file: interfaces.yml
     apply:
       tags: ["interfaces"]
