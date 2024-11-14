@@ -1,7 +1,7 @@
+---
 - name: Pushes interface configuration
-  template: 
+  ansible.builtin.template:
     src: "../templates/interfaces.j2"
     dest: /etc/network/interfaces
   notify:
     - Start interface
-

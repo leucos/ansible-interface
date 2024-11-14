@@ -1,3 +1,8 @@
-- include: interfaces.yml
-  tags: ["interfaces"]
+---
+- include_tasks:
+    file: interfaces.yml
+    apply:
+      tags: ["interfaces"]
   when: interfaces_v4 is defined
+  tags:
+    - always
